@@ -1,32 +1,40 @@
-#include <Bureaucrat.hpp>
-#include <Form.hpp>
-
+#include <ShrubberyCreationForm.hpp>
+#include <RobotomyRequestForm.hpp>
+#include <PresidentialPardonForm.hpp>
 int main (void)
 {
+	Bureaucrat bureaucrat("Moriarty", 4);
+	ShrubberyCreationForm form("Home");// min: 145, 137
 	try {
-		std::cout << "\n|----------------------------|" << std::endl;
-		std::cout << "|    Test for Form signed    |" << std::endl;
-		std::cout << "|----------------------------|\n" << std::endl;
-		Bureaucrat Susana("Susana", 150);
-		Form formPegasus("formPegasus", 150, 150);
-		Susana.signForm(formPegasus);
-		std::cout << formPegasus << std::endl;
-
-	} catch (std::exception &e) {
-		std::cerr << "Exception caught: " << e.what() << std::endl;
+		std::cout << "\n -- SIGN & EXEC SHRUBBERY CREATION FORM --\n" << std::endl;
+		bureaucrat.signForm(form);
+		bureaucrat.executeForm(form);
+	}
+	catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
 	}
 
+	RobotomyRequestForm robotomy("Robotomy");// min: 72, 45
 	try {
-		std::cout << "\n|----------------------------------|" << std::endl;
-		std::cout << "|    Test for not enought grade    |" << std::endl;
-		std::cout << "|----------------------------------|\n" << std::endl;
-		Bureaucrat Paco("Paco", 149);
-		Form badform("badform", 1, 150);
-		Paco.signForm(badform);
-		std::cout << badform << std::endl;
-	} catch (std::exception &e) {
-		std::cerr << "Exception caught: " << e.what() << std::endl;
+		std::cout << "\n -- SIGN & EXEC ROBOTOMY REQUEST FORM --\n" << std::endl;
+		bureaucrat.signForm(robotomy);
+		bureaucrat.executeForm(robotomy);
 	}
+	catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
+	}
+
+	PresidentialPardonForm pardon("Pardon");// min: 25, 5
+	try {
+		std::cout << "\n -- SIGN & EXEC PRESIDENTIAL PARDON FORM --\n" << std::endl;
+		bureaucrat.signForm(pardon);
+		bureaucrat.executeForm(pardon);
+	}
+	catch (std::exception &e) {
+		std::cout << e.what() << std::endl;
+	}
+
+	std::cout << "\n -- --\n" << std::endl;
 
 	return 0;
 }

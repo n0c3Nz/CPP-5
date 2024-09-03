@@ -1,58 +1,66 @@
 #include <Form.hpp>
 #include <Bureaucrat.hpp>
 
-Form::Form(void) : _name("Default"), _isSigned(false), _signGrade(150), _execGrade(150) {
+AForm::AForm(void) : _name("Default"), _isSigned(false), _signGrade(150), _execGrade(150) {
 	std::cout << "Default constructor called." << std::endl;
 }
 
-Form	&Form::operator=(const Form &copy)
+AForm	&AForm::operator=(const AForm &copy)
 {
 	this->_isSigned = copy._isSigned;
 	return (*this);
 }
 
-Form::Form(std::string const name, int const signGrade, int const execGrade) : _name(name), _isSigned(0), _signGrade(signGrade), _execGrade(execGrade)
+AForm::AForm(std::string const name, int const signGrade, int const execGrade) : _name(name), _isSigned(0), _signGrade(signGrade), _execGrade(execGrade)
 {
 	if (this->_signGrade < 1)
-		throw (Form::GradeTooHighException());
+		throw (AForm::GradeTooHighException());
 	else if (this->_signGrade > 150)
-		throw (Form::GradeTooLowException());
+		throw (AForm::GradeTooLowException());
 	if (this->_execGrade < 1)
-		throw (Form::GradeTooHighException());
+		throw (AForm::GradeTooHighException());
 	else if (this->_execGrade > 150)
-		throw (Form::GradeTooLowException());
+		throw (AForm::GradeTooLowException());
 	std::cout << name << ": " << "Parameter constructor called." << std::endl;
 }
 
-Form::Form(Form const &copy): _name(copy._name), _isSigned(copy._isSigned), _signGrade(copy._signGrade), _execGrade(copy._execGrade)
+AForm::AForm(AForm const &copy): _name(copy._name), _isSigned(copy._isSigned), _signGrade(copy._signGrade), _execGrade(copy._execGrade)
 {
 	*this = copy;
 }
 
-const std::string	Form::getName(void) const
+const std::string	AForm::getName(void) const
 {
 	return (this->_name);
 }
 
-int	Form::getSignGrade(void) const
+int	AForm::getSignGrade(void) const
 {
 	return (this->_signGrade);
 }
 
-int	Form::getExecGrade(void) const
+int	AForm::getExecGrade(void) const
 {
 	return (this->_execGrade);
 }
 
-bool	Form::getIsSigned(void) const
+bool	AForm::getIsSigned(void) const
 {
 	return (this->_isSigned);
 }
 
-void	Form::beSigned(const Bureaucrat &bureaucrat)
+void AForm::execute(Bureaucrat const &executor) const {
+    if (!this->getIsSigned())
+        throw std::runtime_error("Form is not signed.");
+    if (executor.getGrade() > this->getExecGrade())
+        throw std::runtime_error("Bureaucrat grade too low to execute form.");
+    std::cout << "Executing form: " << this->getName() << std::endl;
+}
+
+void	AForm::beSigned(const Bureaucrat &bureaucrat)
 {
 	if (bureaucrat.getGrade() > this->_signGrade){
-		throw Form::GradeTooLowException();
+		throw AForm::GradeTooLowException();
 	}
 	else
 	{
@@ -61,12 +69,12 @@ void	Form::beSigned(const Bureaucrat &bureaucrat)
 	}
 }
 
-std::ostream	&operator<<(std::ostream &stream, Form const &form)
+std::ostream	&operator<<(std::ostream &stream, AForm const &form)
 {
 	stream << form.getName() << ", Sign Grade: " << form.getSignGrade() << ", Exec Grade: " << form.getExecGrade() << ", Signed: " << form.getIsSigned();
 	return (stream);
 }
 
-Form::~Form(void) {
+AForm::~AForm(void) {
 	std::cout << _name << ":" << " Called Default Destructor" << std::endl;
 }

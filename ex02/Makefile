@@ -39,9 +39,11 @@ $(NAME): $(OBJ)
 clean:
 	@rm -rf $(OBJ)
 	@rm -rf $(OBJ_DIR)
+	@rm -rf Home_shrubbery
 
 fclean: clean
 	rm -f $(NAME)
+	@rm -rf Home_shrubbery
 
 re: fclean all
 
