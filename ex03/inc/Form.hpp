@@ -16,7 +16,7 @@ class  AForm
     public:
 		AForm(void);
 		AForm(std::string const name, int const signGrade, int const execGrade);
-		~AForm();
+		virtual ~AForm();
 		AForm(const AForm &copy);
 		AForm &operator=(const AForm &copy);
         class GradeTooLowException : public std::exception

@@ -9,23 +9,23 @@
 
 class Intern
 {
-private:
-    std::string _formNames[3];
-    AForm *(Intern::*_formCreators[3])(std::string);
+    private:
+        std::string _formNames[3];
+        AForm* (Intern::*_formCreators[3])(const std::string&);
 
-public:
-    Intern(void);
-    Intern(const Intern &copy);
-    ~Intern();
+    public:
+        Intern(void);
+        Intern(const Intern &copy);
+        ~Intern();
 
-    Intern &operator=(const Intern &copy);
+        Intern &operator=(const Intern &copy);
 
-    AForm *makeForm(std::string formName, std::string target);
+        AForm *makeForm(const std::string &formName, const std::string &target);
 
-private:
-    AForm *createPresidentialPardonForm(std::string target);
-    AForm *createRobotomyRequestForm(std::string target);
-    AForm *createShrubberyCreationForm(std::string target);
+    private:
+        AForm *createPresidentialPardonForm(const std::string &target);
+        AForm *createRobotomyRequestForm(const std::string &target);
+        AForm *createShrubberyCreationForm(const std::string &target);
 };
 
 #endif

@@ -63,10 +63,10 @@ void	Form::beSigned(const Bureaucrat &bureaucrat)
 
 std::ostream	&operator<<(std::ostream &stream, Form const &form)
 {
-	stream << form.getName() << ", Sign Grade: " << form.getSignGrade() << ", Exec Grade: " << form.getExecGrade() << ", Signed: " << form.getIsSigned();
+	stream << form.getName() << ": Sign Grade: " << form.getSignGrade() << ", Exec Grade: " << form.getExecGrade() << ", Signed: " << form.getIsSigned();
 	return (stream);
 }
 
 Form::~Form(void) {
-	std::cout << _name << ":" << " Called Default Destructor" << std::endl;
+	std::cout << _name << ": Called Default Destructor" << std::endl;
 }

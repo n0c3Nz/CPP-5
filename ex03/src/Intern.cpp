@@ -1,4 +1,6 @@
-#include <Intern.hpp>
+#include "Intern.hpp"
+#include <iostream>
+#include <stdexcept>
 
 Intern::Intern(void)
 {
@@ -15,37 +17,37 @@ Intern::Intern(const Intern &copy)
     *this = copy;
 }
 
-Intern::~Intern()
-{
+Intern::~Intern() {}
+
+Intern &Intern::operator=(const Intern &copy) {
+    if (this != &copy) {
+        for (int i = 0; i < 3; i++) {
+            _formNames[i] = copy._formNames[i];
+            _formCreators[i] = copy._formCreators[i];
+        }
+    }
+    return *this;
 }
 
-Intern &Intern::operator=(const Intern &copy)
-{
-    (void)copy;
-    return (*this);
-}
-
-AForm *Intern::makeForm(std::string formName, std::string target)
-{
-    for (int i = 0; i < 3; i++)
-    {
-        if (formName == _formNames[i])
-            return (this->*_formCreators[i])(target);
+AForm *Intern::makeForm(const std::string &formName, const std::string &target) {
+    for (int i = 0; i < 3; i++) {
+        if (formName == _formNames[i]) {
+            AForm* form = (this->*_formCreators[i])(target);
+            std::cout << "Intern creates " << formName << std::endl;
+            return form;
+        }
     }
     throw std::runtime_error("Form name not found.");
 }
 
-AForm *Intern::createPresidentialPardonForm(std::string target)
-{
-    return (new PresidentialPardonForm(target));
+AForm *Intern::createPresidentialPardonForm(const std::string &target) {
+    return new PresidentialPardonForm(target);
 }
 
-AForm *Intern::createRobotomyRequestForm(std::string target)
-{
-    return (new RobotomyRequestForm(target));
+AForm *Intern::createRobotomyRequestForm(const std::string &target) {
+    return new RobotomyRequestForm(target);
 }
 
-AForm *Intern::createShrubberyCreationForm(std::string target)
-{
-    return (new ShrubberyCreationForm(target));
+AForm *Intern::createShrubberyCreationForm(const std::string &target) {
+    return new ShrubberyCreationForm(target);
 }
