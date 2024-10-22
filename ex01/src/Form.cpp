@@ -13,14 +13,18 @@ Form	&Form::operator=(const Form &copy)
 
 Form::Form(std::string const name, int const signGrade, int const execGrade) : _name(name), _isSigned(0), _signGrade(signGrade), _execGrade(execGrade)
 {
-	if (this->_signGrade < 1)
-		throw (Form::GradeTooHighException());
-	else if (this->_signGrade > 150)
-		throw (Form::GradeTooLowException());
-	if (this->_execGrade < 1)
-		throw (Form::GradeTooHighException());
-	else if (this->_execGrade > 150)
-		throw (Form::GradeTooLowException());
+	try {
+		if (this->_signGrade < 1)
+			throw (Form::GradeTooHighException());
+		else if (this->_signGrade > 150)
+			throw (Form::GradeTooLowException());
+		if (this->_execGrade < 1)
+			throw (Form::GradeTooHighException());
+		else if (this->_execGrade > 150)
+			throw (Form::GradeTooLowException());
+	}catch (std::exception &e) {
+		std::cerr << "Exception caught: " << e.what() << std::endl;
+	}
 	std::cout << name << ": " << "Parameter constructor called." << std::endl;
 }
 
@@ -51,13 +55,17 @@ bool	Form::getIsSigned(void) const
 
 void	Form::beSigned(const Bureaucrat &bureaucrat)
 {
-	if (bureaucrat.getGrade() > this->_signGrade){
-		throw Form::GradeTooLowException();
-	}
-	else
-	{
-		this->_isSigned = 1;
-		std::cout << bureaucrat.getName() << ":" << " successfully signed " << this->_name << std::endl;
+	try {
+		if (bureaucrat.getGrade() > this->_signGrade){
+			throw Form::GradeTooLowException();
+		}
+		else
+		{
+			this->_isSigned = 1;
+			std::cout << bureaucrat.getName() << ":" << " successfully signed " << this->_name << std::endl;
+		}
+	}catch (std::exception &e) {
+		std::cerr << "Exception caught: " << e.what() << std::endl;
 	}
 }
 

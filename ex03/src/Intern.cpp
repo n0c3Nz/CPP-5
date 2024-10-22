@@ -30,14 +30,19 @@ Intern &Intern::operator=(const Intern &copy) {
 }
 
 AForm *Intern::makeForm(const std::string &formName, const std::string &target) {
-    for (int i = 0; i < 3; i++) {
-        if (formName == _formNames[i]) {
-            AForm* form = (this->*_formCreators[i])(target);
-            std::cout << "Intern creates " << formName << std::endl;
-            return form;
+    try {
+        for (int i = 0; i < 3; i++) {
+            if (formName == _formNames[i]) {
+                AForm* form = (this->*_formCreators[i])(target);
+                std::cout << "Intern creates " << formName << std::endl;
+                return form;
+            }
         }
-    }
-    throw std::runtime_error("Form name not found.");
+        throw std::runtime_error("Form name not found.");
+    }catch (std::exception &e) {
+		std::cerr << "Exception caught: " << e.what() << std::endl;
+	}
+    return NULL;
 }
 
 AForm *Intern::createPresidentialPardonForm(const std::string &target) {

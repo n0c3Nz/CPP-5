@@ -13,14 +13,18 @@ AForm	&AForm::operator=(const AForm &copy)
 
 AForm::AForm(std::string const name, int const signGrade, int const execGrade) : _name(name), _isSigned(0), _signGrade(signGrade), _execGrade(execGrade)
 {
-	if (this->_signGrade < 1)
-		throw (AForm::GradeTooHighException());
-	else if (this->_signGrade > 150)
-		throw (AForm::GradeTooLowException());
-	if (this->_execGrade < 1)
-		throw (AForm::GradeTooHighException());
-	else if (this->_execGrade > 150)
-		throw (AForm::GradeTooLowException());
+	try {
+		if (this->_signGrade < 1)
+			throw (AForm::GradeTooHighException());
+		else if (this->_signGrade > 150)
+			throw (AForm::GradeTooLowException());
+		if (this->_execGrade < 1)
+			throw (AForm::GradeTooHighException());
+		else if (this->_execGrade > 150)
+			throw (AForm::GradeTooLowException());
+	}catch (std::exception &e) {
+		std::cerr << "Exception caught: " << e.what() << std::endl;
+	}
 	std::cout << name << ": " << "Parameter constructor called." << std::endl;
 }
 
@@ -50,22 +54,30 @@ bool	AForm::getIsSigned(void) const
 }
 
 void AForm::execute(Bureaucrat const &executor) const {
-    if (!this->getIsSigned())
-        throw std::runtime_error("Form is not signed.");
-    if (executor.getGrade() > this->getExecGrade())
-        throw std::runtime_error("Bureaucrat grade too low to execute form.");
+    try {
+		if (!this->getIsSigned())
+			throw std::runtime_error("Form is not signed.");
+		if (executor.getGrade() > this->getExecGrade())
+			throw std::runtime_error("Bureaucrat grade too low to execute form.");
+	}catch (std::exception &e) {
+		std::cerr << "Exception caught: " << e.what() << std::endl;
+	}
     std::cout << "Executing form: " << this->getName() << std::endl;
 }
 
 void	AForm::beSigned(const Bureaucrat &bureaucrat)
 {
-	if (bureaucrat.getGrade() > this->_signGrade){
-		throw AForm::GradeTooLowException();
-	}
-	else
-	{
-		this->_isSigned = 1;
-		std::cout << bureaucrat.getName() << ":" << " successfully signed " << this->_name << std::endl;
+	try {
+		if (bureaucrat.getGrade() > this->_signGrade){
+			throw AForm::GradeTooLowException();
+		}
+		else
+		{
+			this->_isSigned = 1;
+			std::cout << bureaucrat.getName() << ":" << " successfully signed " << this->_name << std::endl;
+		}
+	}catch (std::exception &e) {
+		std::cerr << "Exception caught: " << e.what() << std::endl;
 	}
 }
 
